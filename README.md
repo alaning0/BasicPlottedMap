@@ -5,11 +5,11 @@ A web-based map viewing application that displays interactive maps with plotted 
 ## Features
 
 ### 🗺️ Interactive Map Display
-- **Street View**: Light gradient background with grid overlay
-- **Satellite View**: Dark gradient background simulating satellite imagery
-- **Canvas-based rendering**: Smooth, responsive map interface
-- **Mouse wheel zoom**: Zoom in/out functionality
-- **Grid lines**: Visual reference grid showing longitude/latitude
+- **OpenStreetMap Integration**: Real map tiles using Leaflet.js
+- **Street View**: Standard OpenStreetMap tiles
+- **Satellite View**: High-resolution satellite imagery from Esri
+- **Professional map controls**: Zoom, pan, and layer switching
+- **Fallback mode**: Graceful degradation when external resources are unavailable
 
 ### 📍 Point Plotting & Interaction
 - **Global city markers**: 10 major cities plotted worldwide
@@ -38,10 +38,10 @@ A web-based map viewing application that displays interactive maps with plotted 
 ## Technical Implementation
 
 ### Architecture
-- **Frontend**: Pure HTML5, CSS3, and vanilla JavaScript
-- **Map Rendering**: HTML5 Canvas for performance and flexibility
+- **Frontend**: HTML5, CSS3, and vanilla JavaScript with Leaflet.js
+- **Map Rendering**: OpenStreetMap tiles via Leaflet.js library
 - **Mock APIs**: Simulated backend with realistic data and delays
-- **No external dependencies**: Self-contained application
+- **Graceful degradation**: Fallback mode when external resources are blocked
 
 ### Data Sources
 - **Mock location API**: Returns 10 global cities with coordinates
@@ -51,7 +51,8 @@ A web-based map viewing application that displays interactive maps with plotted 
 ## Getting Started
 
 ### Prerequisites
-- Modern web browser with HTML5 Canvas support
+- Modern web browser with HTML5 support
+- Internet connection (for OpenStreetMap tiles)
 - Python 3.x (for local server)
 
 ### Installation & Running
@@ -125,7 +126,6 @@ The application includes 10 major global cities:
 
 ## Future Enhancements
 
-- Real map tile integration (OpenStreetMap)
 - GPS location support
 - Custom marker addition
 - Export/import functionality

@@ -5,7 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Basic Plotted Map</title>
     
-    <!-- Local Map CSS will be included in styles.css -->
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
+          crossorigin=""/>
+    
+    <!-- Fallback for offline mode -->
+    <style>
+        .leaflet-fallback #map {
+            background: linear-gradient(180deg, #87CEEB 0%, #E0F6FF 30%, #90EE90 70%, #228B22 100%);
+        }
+    </style>
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
@@ -21,13 +31,7 @@
         </header>
         
         <main>
-            <div id="map">
-                <div class="map-controls">
-                    <button id="streetViewBtn" class="active">Street View</button>
-                    <button id="satelliteViewBtn">Satellite View</button>
-                </div>
-                <canvas id="mapCanvas" class="map-canvas"></canvas>
-            </div>
+            <div id="map"></div>
             <div id="sidebar" class="sidebar">
                 <div class="sidebar-content">
                     <h3>Point Details</h3>
@@ -39,7 +43,10 @@
         </main>
     </div>
 
-    <!-- Local Map JS will be a simple implementation -->
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" 
+            crossorigin=""></script>
     
     <!-- Custom JS -->
     <script src="script.js"></script>

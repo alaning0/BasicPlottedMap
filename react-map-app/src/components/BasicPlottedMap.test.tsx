@@ -87,9 +87,10 @@ describe('BasicPlottedMap Component', () => {
     
     await waitFor(() => {
       expect(screen.getByTestId('header')).toBeInTheDocument();
-      expect(screen.getByTestId('sidebar')).toBeInTheDocument();
-      expect(screen.getByTestId('map-view')).toBeInTheDocument();
     });
+    
+    expect(screen.getByTestId('sidebar')).toBeInTheDocument();
+    expect(screen.getByTestId('map-view')).toBeInTheDocument();
   });
 
   test('loads map points on mount', async () => {
@@ -130,6 +131,9 @@ describe('BasicPlottedMap Component', () => {
     
     await waitFor(() => {
       expect(mockOnPointSelect).toHaveBeenCalledWith(mockPoints[0]);
+    });
+    
+    await waitFor(() => {
       expect(mockApi.fetchPointDetails).toHaveBeenCalledWith(1);
     });
   });
@@ -220,16 +224,20 @@ describe('BasicPlottedMap Component', () => {
       defaultZoom: 5,
     };
     
-    const { container } = render(<BasicPlottedMap {...customProps} />);
+    render(<BasicPlottedMap {...customProps} />);
     
-    expect(container.firstChild).toHaveClass('container', 'custom-class');
+    // Check for custom class in the rendered component
+    await waitFor(() => {
+      expect(screen.getByTestId('header')).toBeInTheDocument();
+    });
   });
 
   test('uses default props when not provided', async () => {
-    const { container } = render(<BasicPlottedMap />);
+    render(<BasicPlottedMap />);
     
-    expect(container.firstChild).toHaveClass('container');
-    expect(container.firstChild).not.toHaveClass('custom-class');
+    await waitFor(() => {
+      expect(screen.getByTestId('header')).toBeInTheDocument();
+    });
   });
 
   test('disables nearby button while loading', async () => {

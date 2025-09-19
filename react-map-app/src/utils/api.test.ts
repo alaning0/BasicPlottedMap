@@ -4,7 +4,6 @@ import {
   calculateDistance, 
   findNearbyPoints 
 } from './api';
-import { mockMapPoints, mockPointDetails } from '../data/mockData';
 import { MapPoint } from '../types';
 
 // Mock the data modules

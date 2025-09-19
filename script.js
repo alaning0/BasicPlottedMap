@@ -381,12 +381,6 @@ async function displayNearbyPointsDetails(nearbyPoints, center) {
     
     if (nearbyPoints.length === 0) {
         detailsContainer.innerHTML = '<p>No nearby points found in the search area.</p>';
-    }
-}
-function findNearbyPoints() {
-    if (!isLeafletAvailable || !map) {
-        // Fallback mode: show sample nearby points data
-        showSampleNearbyPoints();
         return;
     }
     

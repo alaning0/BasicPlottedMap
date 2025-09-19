@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Plotted Map</title>
+    
+    <!-- Local Map CSS will be included in styles.css -->
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Basic Plotted Map</h1>
+            <div class="controls">
+                <button id="nearbyBtn" class="btn">Find Nearby Points</button>
+                <span id="status"></span>
+            </div>
+        </header>
+        
+        <main>
+            <div id="map">
+                <div class="map-controls">
+                    <button id="streetViewBtn" class="active">Street View</button>
+                    <button id="satelliteViewBtn">Satellite View</button>
+                </div>
+                <canvas id="mapCanvas" class="map-canvas"></canvas>
+            </div>
+            <div id="sidebar" class="sidebar">
+                <div class="sidebar-content">
+                    <h3>Point Details</h3>
+                    <div id="pointDetails">
+                        <p>Click on a point to view details</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Local Map JS will be a simple implementation -->
+    
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+</body>
+</html>

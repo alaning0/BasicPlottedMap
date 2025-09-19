@@ -50,12 +50,19 @@ A web-based map viewing application that displays interactive maps with plotted 
 
 ## Getting Started
 
-### Prerequisites
+### 🌐 Live Demo
+**[View the live application on GitHub Pages](https://alaningcin8.github.io/BasicPlottedMap/)**
+
+The application is automatically deployed and available online. No installation required!
+
+### 🛠️ Local Development
+
+#### Prerequisites
 - Modern web browser with HTML5 support
 - Internet connection (for OpenStreetMap tiles)
-- Python 3.x (for local server)
+- Python 3.x (for local development server)
 
-### Installation & Running
+#### Installation & Running
 
 1. **Clone the repository**
    ```bash
@@ -63,24 +70,32 @@ A web-based map viewing application that displays interactive maps with plotted 
    cd BasicPlottedMap
    ```
 
-2. **Start the local server**
+2. **Option A: Local development server**
    ```bash
    python3 server.py
+   # Open http://localhost:8000
    ```
 
-3. **Open in browser**
+3. **Option B: Direct browser access**
+   ```bash
+   # Simply open index.html in your web browser
+   open index.html
    ```
-   http://localhost:8000
-   ```
+
+### 🚀 Deployment
+The application automatically deploys to GitHub Pages when changes are pushed to the main branch using GitHub Actions.
 
 ### File Structure
 ```
 BasicPlottedMap/
-├── index.html          # Main HTML structure
-├── styles.css          # Styling and responsive design
-├── script.js           # Core application logic and map implementation
-├── server.py           # Simple HTTP server for local development
-└── README.md           # This file
+├── .github/
+│   └── workflows/
+│       └── deploy.yml      # GitHub Actions deployment workflow
+├── index.html              # Main HTML structure
+├── styles.css              # Styling and responsive design
+├── script.js               # Core application logic and map implementation
+├── server.py               # Simple HTTP server for local development
+└── README.md               # This file
 ```
 
 ## Usage

@@ -71,220 +71,41 @@ function setupEventListeners() {
     nearbyBtn.addEventListener('click', findNearbyPoints);
 }
 
-// Mock API function to get points data
+// API function to get points data from server
 async function fetchMapPoints() {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
-    // Mock data with various global locations
-    return [
-        {
-            id: 1,
-            name: "New York City",
-            lat: 40.7128,
-            lng: -74.0060,
-            type: "city",
-            description: "The largest city in the United States"
-        },
-        {
-            id: 2,
-            name: "London",
-            lat: 51.5074,
-            lng: -0.1278,
-            type: "city",
-            description: "Capital of the United Kingdom"
-        },
-        {
-            id: 3,
-            name: "Tokyo",
-            lat: 35.6762,
-            lng: 139.6503,
-            type: "city",
-            description: "Capital of Japan"
-        },
-        {
-            id: 4,
-            name: "Sydney",
-            lat: -33.8688,
-            lng: 151.2093,
-            type: "city",
-            description: "Largest city in Australia"
-        },
-        {
-            id: 5,
-            name: "Paris",
-            lat: 48.8566,
-            lng: 2.3522,
-            type: "city",
-            description: "Capital of France"
-        },
-        {
-            id: 6,
-            name: "Cairo",
-            lat: 30.0444,
-            lng: 31.2357,
-            type: "city",
-            description: "Capital of Egypt"
-        },
-        {
-            id: 7,
-            name: "Mumbai",
-            lat: 19.0760,
-            lng: 72.8777,
-            type: "city",
-            description: "Financial capital of India"
-        },
-        {
-            id: 8,
-            name: "São Paulo",
-            lat: -23.5505,
-            lng: -46.6333,
-            type: "city",
-            description: "Largest city in Brazil"
-        },
-        {
-            id: 9,
-            name: "Cape Town",
-            lat: -33.9249,
-            lng: 18.4241,
-            type: "city",
-            description: "Legislative capital of South Africa"
-        },
-        {
-            id: 10,
-            name: "Vancouver",
-            lat: 49.2827,
-            lng: -123.1207,
-            type: "city",
-            description: "Coastal city in Canada"
+    try {
+        const response = await fetch('/api/points');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-    ];
+        const points = await response.json();
+        return points;
+    } catch (error) {
+        console.error('Error fetching map points:', error);
+        // Return empty array on error to prevent breaking the app
+        return [];
+    }
 }
 
-// Mock API function to get point details
+// API function to get point details from server
 async function fetchPointDetails(pointId) {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 300));
-    
-    const mockDetails = {
-        1: {
-            title: "New York City Details",
-            description: "The most populous city in the United States, located in the state of New York.",
-            image: "data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%234a90e2'/%3E%3Ctext x='150' y='100' text-anchor='middle' fill='white' font-size='20'%3ENew York%3C/text%3E%3C/svg%3E",
-            data: [
-                { property: "Population", value: "8.3 million" },
-                { property: "Area", value: "778.2 km²" },
-                { property: "Founded", value: "1624" },
-                { property: "Time Zone", value: "EST (UTC-5)" }
-            ]
-        },
-        2: {
-            title: "London Details",
-            description: "The capital and largest city of England and the United Kingdom.",
-            image: "data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%23e74c3c'/%3E%3Ctext x='150' y='100' text-anchor='middle' fill='white' font-size='20'%3ELondon%3C/text%3E%3C/svg%3E",
-            data: [
-                { property: "Population", value: "9.0 million" },
-                { property: "Area", value: "1,572 km²" },
-                { property: "Founded", value: "47 AD" },
-                { property: "Time Zone", value: "GMT (UTC+0)" }
-            ]
-        },
-        3: {
-            title: "Tokyo Details",
-            description: "The capital of Japan and the most populous metropolitan area in the world.",
-            image: "data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%23f39c12'/%3E%3Ctext x='150' y='100' text-anchor='middle' fill='white' font-size='20'%3ETokyo%3C/text%3E%3C/svg%3E",
-            data: [
-                { property: "Population", value: "37.4 million" },
-                { property: "Area", value: "2,194 km²" },
-                { property: "Founded", value: "1457" },
-                { property: "Time Zone", value: "JST (UTC+9)" }
-            ]
-        },
-        4: {
-            title: "Sydney Details",
-            description: "The largest city in Australia and a major global city known for its harbour.",
-            image: "data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%2327ae60'/%3E%3Ctext x='150' y='100' text-anchor='middle' fill='white' font-size='20'%3ESydney%3C/text%3E%3C/svg%3E",
-            data: [
-                { property: "Population", value: "5.3 million" },
-                { property: "Area", value: "12,368 km²" },
-                { property: "Founded", value: "1788" },
-                { property: "Time Zone", value: "AEST (UTC+10)" }
-            ]
-        },
-        5: {
-            title: "Paris Details",
-            description: "The capital and most populous city of France, known as the City of Light.",
-            image: "data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%239b59b6'/%3E%3Ctext x='150' y='100' text-anchor='middle' fill='white' font-size='20'%3EParis%3C/text%3E%3C/svg%3E",
-            data: [
-                { property: "Population", value: "2.1 million" },
-                { property: "Area", value: "105.4 km²" },
-                { property: "Founded", value: "3rd century BC" },
-                { property: "Time Zone", value: "CET (UTC+1)" }
-            ]
-        },
-        6: {
-            title: "Cairo Details",
-            description: "The capital of Egypt and the largest city in the Arab world.",
-            image: "data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%23d35400'/%3E%3Ctext x='150' y='100' text-anchor='middle' fill='white' font-size='20'%3ECairo%3C/text%3E%3C/svg%3E",
-            data: [
-                { property: "Population", value: "20.9 million" },
-                { property: "Area", value: "606 km²" },
-                { property: "Founded", value: "969 AD" },
-                { property: "Time Zone", value: "EET (UTC+2)" }
-            ]
-        },
-        7: {
-            title: "Mumbai Details",
-            description: "The financial capital of India and the most populous city in the country.",
-            image: "data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%2316a085'/%3E%3Ctext x='150' y='100' text-anchor='middle' fill='white' font-size='20'%3EMumbai%3C/text%3E%3C/svg%3E",
-            data: [
-                { property: "Population", value: "20.4 million" },
-                { property: "Area", value: "603.4 km²" },
-                { property: "Founded", value: "1507" },
-                { property: "Time Zone", value: "IST (UTC+5:30)" }
-            ]
-        },
-        8: {
-            title: "São Paulo Details",
-            description: "The largest city in Brazil and the most populous city in the Southern Hemisphere.",
-            image: "data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%232c3e50'/%3E%3Ctext x='150' y='100' text-anchor='middle' fill='white' font-size='20'%3ES%C3%A3o Paulo%3C/text%3E%3C/svg%3E",
-            data: [
-                { property: "Population", value: "12.3 million" },
-                { property: "Area", value: "1,521 km²" },
-                { property: "Founded", value: "1554" },
-                { property: "Time Zone", value: "BRT (UTC-3)" }
-            ]
-        },
-        9: {
-            title: "Cape Town Details",
-            description: "The legislative capital of South Africa and one of the most beautiful cities in the world.",
-            image: "data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%238e44ad'/%3E%3Ctext x='150' y='100' text-anchor='middle' fill='white' font-size='20'%3ECape Town%3C/text%3E%3C/svg%3E",
-            data: [
-                { property: "Population", value: "4.6 million" },
-                { property: "Area", value: "2,454 km²" },
-                { property: "Founded", value: "1652" },
-                { property: "Time Zone", value: "SAST (UTC+2)" }
-            ]
-        },
-        10: {
-            title: "Vancouver Details",
-            description: "A coastal city in western Canada, consistently ranked among the world's most livable cities.",
-            image: "data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%2334495e'/%3E%3Ctext x='150' y='100' text-anchor='middle' fill='white' font-size='20'%3EVancouver%3C/text%3E%3C/svg%3E",
-            data: [
-                { property: "Population", value: "2.6 million" },
-                { property: "Area", value: "2,878 km²" },
-                { property: "Founded", value: "1886" },
-                { property: "Time Zone", value: "PST (UTC-8)" }
-            ]
+    try {
+        const response = await fetch(`/api/points/${pointId}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-    };
-    
-    return mockDetails[pointId] || {
-        title: "Unknown Location",
-        description: "No details available for this location.",
-        image: "data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%237f8c8d'/%3E%3Ctext x='150' y='100' text-anchor='middle' fill='white' font-size='16'%3ENo Image%3C/text%3E%3C/svg%3E",
-        data: []
-    };
+        const details = await response.json();
+        return details;
+    } catch (error) {
+        console.error(`Error fetching details for point ${pointId}:`, error);
+        // Return default response on error
+        return {
+            title: "Error Loading Details",
+            description: "Failed to load point details from server.",
+            image: "data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%237f8c8d'/%3E%3Ctext x='150' y='100' text-anchor='middle' fill='white' font-size='16'%3EError%3C/text%3E%3C/svg%3E",
+            data: []
+        };
+    }
 }
 
 async function loadMapPoints() {
@@ -390,9 +211,19 @@ async function findNearbyPoints() {
         return;
     }
     
-    // Update sidebar title
+    // Update sidebar title to show nearby points count
     const sidebarTitle = document.querySelector('.sidebar h3');
-    sidebarTitle.textContent = `Nearby Points (${nearbyPoints.length})`;
+    sidebarTitle.textContent = `Point Details + Nearby (${nearbyPoints.length})`;
+    
+    // Create a section for nearby points and show loading message
+    const nearbySection = document.createElement('div');
+    nearbySection.className = 'nearby-points-section';
+    nearbySection.innerHTML = `
+        <hr style="margin: 1rem 0; border: 1px solid #eee;">
+        <h4 style="color: #34495e; margin-bottom: 0.5rem;">🔍 Nearby Points</h4>
+        <p>Loading nearby points details...</p>
+    `;
+    detailsContainer.appendChild(nearbySection);
     
     // Create HTML for all nearby points
     let nearbyHtml = '';
@@ -451,13 +282,28 @@ async function findNearbyPoints() {
         }
     }
     
-    detailsContainer.innerHTML = nearbyHtml;
+    // Replace the loading message in the nearby section with the actual content
+    nearbySection.innerHTML = `
+        <hr style="margin: 1rem 0; border: 1px solid #eee;">
+        <h4 style="color: #34495e; margin-bottom: 0.5rem;">🔍 Nearby Points</h4>
+        ${nearbyHtml}
+    `;
     
-    // Reset sidebar title after 10 seconds (to match map marker clear timing)
+    // Reset sidebar title and remove nearby section after 10 seconds (to match map marker clear timing)
     setTimeout(() => {
         const sidebarTitle = document.querySelector('.sidebar h3');
         sidebarTitle.textContent = 'Point Details';
-        detailsContainer.innerHTML = '<p>Click on a point to view details</p>';
+        
+        // Remove the nearby section if it exists, but keep any existing point details
+        const nearbySection = detailsContainer.querySelector('.nearby-points-section');
+        if (nearbySection) {
+            nearbySection.remove();
+        }
+        
+        // If no other content exists, show the default message
+        if (detailsContainer.innerHTML.trim() === '') {
+            detailsContainer.innerHTML = '<p>Click on a point to view details</p>';
+        }
     }, 10000);
 }
 
@@ -472,9 +318,9 @@ function findNearbyPoints() {
         radius = baseRadius / Math.pow(2, Math.max(0, zoomLevel - 3));
     } else {
         // Use sample center point and fixed radius for demo in fallback mode
-        center = { lat: 40.7128, lng: -74.0060 }; // New York City as demo center
-        radius = 6000; // 6000km radius for demo to show multiple points
-        updateStatus("Demo mode: Finding points within 6000km of New York City...");
+        center = { lat: -37.8136, lng: 144.9631 }; // Melbourne as demo center
+        radius = 2000; // 2000km radius for demo to show Melbourne area points
+        updateStatus("Demo mode: Finding points within 2000km of Melbourne...");
     }
     
     if (isLeafletAvailable && map) {

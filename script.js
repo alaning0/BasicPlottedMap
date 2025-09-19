@@ -201,16 +201,26 @@ async function displayNearbyPointsDetails(nearbyPoints, center) {
     const detailsContainer = document.getElementById('pointDetails');
     
     if (nearbyPoints.length === 0) {
-        detailsContainer.innerHTML = '<p>No nearby points found in the search area.</p>';
+        // Create a nearby section to append
+        const nearbySection = document.createElement('div');
+        nearbySection.innerHTML = '<p>No nearby points found in the search area.</p>';
+        detailsContainer.appendChild(nearbySection);
         return;
     }
     
-    // Update sidebar title
+    // Update sidebar title to show nearby points count
     const sidebarTitle = document.querySelector('.sidebar h3');
-    sidebarTitle.textContent = `Nearby Points (${nearbyPoints.length})`;
+    sidebarTitle.textContent = `Point Details + Nearby (${nearbyPoints.length})`;
     
-    // Show loading message while fetching details
-    detailsContainer.innerHTML = '<p>Loading nearby points details...</p>';
+    // Create a section for nearby points and show loading message
+    const nearbySection = document.createElement('div');
+    nearbySection.className = 'nearby-points-section';
+    nearbySection.innerHTML = `
+        <hr style="margin: 1rem 0; border: 1px solid #eee;">
+        <h4 style="color: #34495e; margin-bottom: 0.5rem;">🔍 Nearby Points</h4>
+        <p>Loading nearby points details...</p>
+    `;
+    detailsContainer.appendChild(nearbySection);
     
     // Create HTML for all nearby points
     let nearbyHtml = '';
@@ -269,13 +279,28 @@ async function displayNearbyPointsDetails(nearbyPoints, center) {
         }
     }
     
-    detailsContainer.innerHTML = nearbyHtml;
+    // Replace the loading message in the nearby section with the actual content
+    nearbySection.innerHTML = `
+        <hr style="margin: 1rem 0; border: 1px solid #eee;">
+        <h4 style="color: #34495e; margin-bottom: 0.5rem;">🔍 Nearby Points</h4>
+        ${nearbyHtml}
+    `;
     
-    // Reset sidebar title after 10 seconds (to match map marker clear timing)
+    // Reset sidebar title and remove nearby section after 10 seconds (to match map marker clear timing)
     setTimeout(() => {
         const sidebarTitle = document.querySelector('.sidebar h3');
         sidebarTitle.textContent = 'Point Details';
-        detailsContainer.innerHTML = '<p>Click on a point to view details</p>';
+        
+        // Remove the nearby section if it exists, but keep any existing point details
+        const nearbySection = detailsContainer.querySelector('.nearby-points-section');
+        if (nearbySection) {
+            nearbySection.remove();
+        }
+        
+        // If no other content exists, show the default message
+        if (detailsContainer.innerHTML.trim() === '') {
+            detailsContainer.innerHTML = '<p>Click on a point to view details</p>';
+        }
     }, 10000);
 }
 

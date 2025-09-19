@@ -1,9 +1,17 @@
 // OpenStreetMap implementation using Leaflet.js
+
+// ============================================================================
+// GLOBAL VARIABLES
+// ============================================================================
 let map;
 let markersLayer;
 let nearbyMarkersLayer;
 let allPoints = [];
 let isLeafletAvailable = false;
+
+// ============================================================================
+// INITIALIZATION
+// ============================================================================
 
 // Initialize the application when page loads
 document.addEventListener('DOMContentLoaded', function() {
@@ -19,6 +27,10 @@ document.addEventListener('DOMContentLoaded', function() {
     loadMapPoints();
     setupEventListeners();
 });
+
+// ============================================================================
+// MAP INITIALIZATION FUNCTIONS
+// ============================================================================
 
 function initializeLeafletMap() {
     // Initialize the map with OpenStreetMap tiles
@@ -70,6 +82,10 @@ function setupEventListeners() {
     const nearbyBtn = document.getElementById('nearbyBtn');
     nearbyBtn.addEventListener('click', findNearbyPoints);
 }
+
+// ============================================================================
+// MOCK API FUNCTIONS
+// ============================================================================
 
 // Mock API function to get points data
 async function fetchMapPoints() {
@@ -479,6 +495,10 @@ async function fetchPointDetails(pointId) {
     };
 }
 
+// ============================================================================
+// MAP INTERACTION FUNCTIONS
+// ============================================================================
+
 async function loadMapPoints() {
     updateStatus("Loading map points...");
     
@@ -568,17 +588,15 @@ function displayPointDetails(details) {
     `;
 }
 
+// ============================================================================
+// NEARBY POINTS FUNCTIONALITY
+// ============================================================================
+
 async function displayNearbyPointsDetails(nearbyPoints, center) {
     const detailsContainer = document.getElementById('pointDetails');
     
     if (nearbyPoints.length === 0) {
         detailsContainer.innerHTML = '<p>No nearby points found in the search area.</p>';
-    }
-}
-async function findNearbyPoints() {
-    if (!isLeafletAvailable || !map) {
-        // Fallback mode: show sample nearby points data
-        showSampleNearbyPoints();
         return;
     }
     
@@ -821,8 +839,11 @@ async function handleSamplePointClick(pointId) {
         console.error('Error loading sample point details:', error);
         updateStatus("Error loading sample details");
     }
-
 }
+
+// ============================================================================
+// UTILITY FUNCTIONS
+// ============================================================================
 
 // Calculate distance between two coordinates using Haversine formula
 function calculateDistance(lat1, lon1, lat2, lon2) {

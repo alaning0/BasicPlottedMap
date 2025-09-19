@@ -580,6 +580,9 @@ async function displayNearbyPointsDetails(nearbyPoints, center) {
     const sidebarTitle = document.querySelector('.sidebar h3');
     sidebarTitle.textContent = `Nearby Points (${nearbyPoints.length})`;
     
+    // Show loading message while fetching details
+    detailsContainer.innerHTML = '<p>Loading nearby points details...</p>';
+    
     // Create HTML for all nearby points
     let nearbyHtml = '';
     

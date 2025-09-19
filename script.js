@@ -376,6 +376,13 @@ function displayPointDetails(details) {
     `;
 }
 
+async function displayNearbyPointsDetails(nearbyPoints, center) {
+    const detailsContainer = document.getElementById('pointDetails');
+    
+    if (nearbyPoints.length === 0) {
+        detailsContainer.innerHTML = '<p>No nearby points found in the search area.</p>';
+    }
+}
 function findNearbyPoints() {
     if (!isLeafletAvailable || !map) {
         // Fallback mode: show sample nearby points data
@@ -383,17 +390,98 @@ function findNearbyPoints() {
         return;
     }
     
-    const center = map.getCenter();
-    const zoomLevel = map.getZoom();
+    // Update sidebar title
+    const sidebarTitle = document.querySelector('.sidebar h3');
+    sidebarTitle.textContent = `Nearby Points (${nearbyPoints.length})`;
     
-    // Calculate search radius based on zoom level (more zoomed in = smaller radius)
-    const baseRadius = 1000; // km
-    const radius = baseRadius / Math.pow(2, Math.max(0, zoomLevel - 3));
+    // Create HTML for all nearby points
+    let nearbyHtml = '';
     
-    updateStatus(`Finding points within ${Math.round(radius)}km...`);
+    for (const point of nearbyPoints) {
+        const distance = Math.round(calculateDistance(center.lat, center.lng, point.lat, point.lng));
+        
+        try {
+            // Fetch detailed information for each point
+            const details = await fetchPointDetails(point.id);
+            
+            let tableHtml = '';
+            if (details.data && details.data.length > 0) {
+                tableHtml = `
+                    <table class="detail-table">
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${details.data.map(item => `
+                                <tr>
+                                    <td>${item.property}</td>
+                                    <td>${item.value}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            }
+            
+            nearbyHtml += `
+                <div class="point-detail-item nearby-point-item">
+                    <div class="nearby-point-header">
+                        <h4>${point.name}</h4>
+                        <span class="distance-badge">${distance}km away</span>
+                    </div>
+                    <p>${details.description}</p>
+                    ${details.image ? `<img src="${details.image}" alt="${details.title}" class="detail-image">` : ''}
+                    ${tableHtml}
+                </div>
+            `;
+        } catch (error) {
+            console.error(`Error loading details for ${point.name}:`, error);
+            nearbyHtml += `
+                <div class="point-detail-item nearby-point-item">
+                    <div class="nearby-point-header">
+                        <h4>${point.name}</h4>
+                        <span class="distance-badge">${distance}km away</span>
+                    </div>
+                    <p>${point.description}</p>
+                </div>
+            `;
+        }
+    }
     
-    // Clear previous nearby markers
-    nearbyMarkersLayer.clearLayers();
+    detailsContainer.innerHTML = nearbyHtml;
+    
+    // Reset sidebar title after 10 seconds (to match map marker clear timing)
+    setTimeout(() => {
+        const sidebarTitle = document.querySelector('.sidebar h3');
+        sidebarTitle.textContent = 'Point Details';
+        detailsContainer.innerHTML = '<p>Click on a point to view details</p>';
+    }, 10000);
+}
+
+function findNearbyPoints() {
+    let center, radius;
+    
+    if (isLeafletAvailable && map) {
+        // Use actual map center and zoom-based radius when map is available
+        center = map.getCenter();
+        const zoomLevel = map.getZoom();
+        const baseRadius = 1000; // km
+        radius = baseRadius / Math.pow(2, Math.max(0, zoomLevel - 3));
+    } else {
+        // Use sample center point and fixed radius for demo in fallback mode
+        center = { lat: 40.7128, lng: -74.0060 }; // New York City as demo center
+        radius = 6000; // 6000km radius for demo to show multiple points
+        updateStatus("Demo mode: Finding points within 6000km of New York City...");
+    }
+    
+    if (isLeafletAvailable && map) {
+        updateStatus(`Finding points within ${Math.round(radius)}km...`);
+        // Clear previous nearby markers
+        nearbyMarkersLayer.clearLayers();
+    }
     
     const nearbyPoints = allPoints.filter(point => {
         const distance = calculateDistance(
@@ -403,27 +491,39 @@ function findNearbyPoints() {
         return distance <= radius;
     });
     
-    // Highlight nearby points
-    nearbyPoints.forEach(point => {
-        const nearbyMarker = L.circleMarker([point.lat, point.lng], {
-            radius: 15,
-            fillColor: '#ff7800',
-            color: '#ff7800',
-            weight: 3,
-            opacity: 0.7,
-            fillOpacity: 0.3
-        }).bindPopup(`<strong>Nearby: ${point.name}</strong><br>Distance: ${Math.round(calculateDistance(center.lat, center.lng, point.lat, point.lng))}km`);
-        
-        nearbyMarkersLayer.addLayer(nearbyMarker);
+    // Sort by distance for better user experience
+    nearbyPoints.sort((a, b) => {
+        const distanceA = calculateDistance(center.lat, center.lng, a.lat, a.lng);
+        const distanceB = calculateDistance(center.lat, center.lng, b.lat, b.lng);
+        return distanceA - distanceB;
     });
     
-    updateStatus(`Found ${nearbyPoints.length} nearby points`);
+    if (isLeafletAvailable && map) {
+        // Highlight nearby points on map
+        nearbyPoints.forEach(point => {
+            const nearbyMarker = L.circleMarker([point.lat, point.lng], {
+                radius: 15,
+                fillColor: '#ff7800',
+                color: '#ff7800',
+                weight: 3,
+                opacity: 0.7,
+                fillOpacity: 0.3
+            }).bindPopup(`<strong>Nearby: ${point.name}</strong><br>Distance: ${Math.round(calculateDistance(center.lat, center.lng, point.lat, point.lng))}km`);
+            
+            nearbyMarkersLayer.addLayer(nearbyMarker);
+        });
+        
+        // Auto-clear nearby markers after 10 seconds
+        setTimeout(() => {
+            nearbyMarkersLayer.clearLayers();
+            updateStatus(`Loaded ${allPoints.length} points`);
+        }, 10000);
+    }
     
-    // Auto-clear nearby markers after 10 seconds
-    setTimeout(() => {
-        nearbyMarkersLayer.clearLayers();
-        updateStatus(`Loaded ${allPoints.length} points`);
-    }, 10000);
+    // Display nearby points information in sidebar
+    displayNearbyPointsDetails(nearbyPoints, center);
+    
+    updateStatus(`Found ${nearbyPoints.length} nearby points`);
 }
 
 function showSampleNearbyPoints() {

@@ -182,6 +182,32 @@ main {
     filter: hue-rotate(120deg) brightness(1.2);
 }
 
+/* Styles for nearby points in sidebar */
+.nearby-point-item {
+    border-left: 3px solid #ff7800;
+    padding-left: 1rem;
+    margin-left: -1rem;
+}
+
+.nearby-point-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.nearby-point-header h4 {
+    margin-bottom: 0;
+}
+
+.distance-badge {
+    background-color: #ff7800;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+=======
 /* Sample nearby points styling */
 .sample-points-list {
     margin-top: 1rem;

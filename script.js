@@ -201,10 +201,13 @@ async function displayNearbyPointsDetails(nearbyPoints, center) {
     const detailsContainer = document.getElementById('pointDetails');
     
     if (nearbyPoints.length === 0) {
-        // Create a nearby section to append
-        const nearbySection = document.createElement('div');
-        nearbySection.innerHTML = '<p>No nearby points found in the search area.</p>';
-        detailsContainer.appendChild(nearbySection);
+        detailsContainer.innerHTML = '<p>No nearby points found in the search area.</p>';
+    }
+}
+async function findNearbyPoints() {
+    if (!isLeafletAvailable || !map) {
+        // Fallback mode: show sample nearby points data
+        showSampleNearbyPoints();
         return;
     }
     

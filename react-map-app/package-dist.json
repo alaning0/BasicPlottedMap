@@ -1,0 +1,45 @@
+{
+  "name": "basic-plotted-map-react",
+  "version": "1.0.0",
+  "description": "React component for interactive mapping with plotted points",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0",
+    "leaflet": "^1.9.0",
+    "react-leaflet": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/leaflet": "^1.9.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "typescript": "^4.9.0"
+  },
+  "keywords": [
+    "react",
+    "map",
+    "leaflet",
+    "plotting",
+    "interactive",
+    "typescript",
+    "component"
+  ],
+  "author": "BasicPlottedMap Contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AlanIngCin8/BasicPlottedMap.git"
+  },
+  "homepage": "https://alaningcin8.github.io/BasicPlottedMap/",
+  "bugs": {
+    "url": "https://github.com/AlanIngCin8/BasicPlottedMap/issues"
+  }
+}

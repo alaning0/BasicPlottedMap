@@ -378,7 +378,8 @@ function displayPointDetails(details) {
 
 function findNearbyPoints() {
     if (!isLeafletAvailable || !map) {
-        updateStatus("Map not available for nearby search");
+        // Fallback mode: show sample nearby points data
+        showSampleNearbyPoints();
         return;
     }
     
@@ -423,6 +424,87 @@ function findNearbyPoints() {
         nearbyMarkersLayer.clearLayers();
         updateStatus(`Loaded ${allPoints.length} points`);
     }, 10000);
+}
+
+function showSampleNearbyPoints() {
+    updateStatus("Showing sample nearby points data...");
+    
+    // Sample scenario: searching from London (51.5074, -0.1278) with 3000km radius
+    const sampleCenter = { lat: 51.5074, lng: -0.1278, name: "London" };
+    const sampleRadius = 3000; // km
+    
+    // Calculate which cities are within the sample radius
+    const nearbyPoints = allPoints.filter(point => {
+        const distance = calculateDistance(
+            sampleCenter.lat, sampleCenter.lng,
+            point.lat, point.lng
+        );
+        return distance <= sampleRadius;
+    }).map(point => {
+        const distance = calculateDistance(
+            sampleCenter.lat, sampleCenter.lng,
+            point.lat, point.lng
+        );
+        return { ...point, distance: Math.round(distance) };
+    }).sort((a, b) => a.distance - b.distance);
+    
+    // Display sample data in the sidebar
+    displaySampleNearbyData(sampleCenter, sampleRadius, nearbyPoints);
+    
+    updateStatus(`Sample: Found ${nearbyPoints.length} points within ${sampleRadius}km of ${sampleCenter.name}`);
+    
+    // Auto-clear after 15 seconds to show it's a demo
+    setTimeout(() => {
+        document.getElementById('pointDetails').innerHTML = '<p>Click on a point to view details</p>';
+        updateStatus("Sample data cleared - click a point for details");
+    }, 15000);
+}
+
+function displaySampleNearbyData(center, radius, nearbyPoints) {
+    const detailsContainer = document.getElementById('pointDetails');
+    
+    let pointsHtml = '';
+    if (nearbyPoints.length > 0) {
+        pointsHtml = `
+            <div class="sample-points-list">
+                ${nearbyPoints.map(point => `
+                    <div class="sample-point-item" onclick="handleSamplePointClick(${point.id})">
+                        <div class="sample-point-header">
+                            <strong>${point.name}</strong>
+                            <span class="sample-distance">${point.distance}km</span>
+                        </div>
+                        <div class="sample-point-description">${point.description}</div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+    
+    detailsContainer.innerHTML = `
+        <div class="point-detail-item">
+            <h4>🔍 Sample Nearby Points Search</h4>
+            <p><strong>Search Center:</strong> ${center.name} (${center.lat.toFixed(4)}, ${center.lng.toFixed(4)})</p>
+            <p><strong>Search Radius:</strong> ${radius}km</p>
+            <p><strong>Results:</strong> ${nearbyPoints.length} points found</p>
+            ${pointsHtml}
+            <div class="sample-note">
+                <em>💡 This is sample data showing how the nearby search works. In normal mode, the search uses your current map view center.</em>
+            </div>
+        </div>
+    `;
+}
+
+async function handleSamplePointClick(pointId) {
+    updateStatus("Loading sample point details...");
+    try {
+        const details = await fetchPointDetails(pointId);
+        displayPointDetails(details);
+        updateStatus("Sample point details loaded");
+    } catch (error) {
+        console.error('Error loading sample point details:', error);
+        updateStatus("Error loading sample details");
+    }
+
 }
 
 // Calculate distance between two coordinates using Haversine formula

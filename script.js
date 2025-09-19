@@ -157,6 +157,87 @@ async function fetchMapPoints() {
             lng: -123.1207,
             type: "city",
             description: "Coastal city in Canada"
+        },
+        // Melbourne area points for testing nearby functionality
+        {
+            id: 11,
+            name: "Melbourne",
+            lat: -37.8136,
+            lng: 144.9631,
+            type: "city",
+            description: "Cultural capital of Australia"
+        },
+        {
+            id: 12,
+            name: "Geelong",
+            lat: -38.1499,
+            lng: 144.3617,
+            type: "city",
+            description: "Port city 75km southwest of Melbourne"
+        },
+        {
+            id: 13,
+            name: "Ballarat",
+            lat: -37.5622,
+            lng: 143.8503,
+            type: "city",
+            description: "Historic gold rush city 105km northwest of Melbourne"
+        },
+        {
+            id: 14,
+            name: "Bendigo",
+            lat: -36.7570,
+            lng: 144.2794,
+            type: "city",
+            description: "Regional city 150km north of Melbourne"
+        },
+        {
+            id: 15,
+            name: "Mornington",
+            lat: -38.2176,
+            lng: 145.0391,
+            type: "coastal",
+            description: "Coastal town on Mornington Peninsula, 60km south of Melbourne"
+        },
+        {
+            id: 16,
+            name: "Dandenong Ranges",
+            lat: -37.8339,
+            lng: 145.3464,
+            type: "landmark",
+            description: "Mountain range and national park 40km east of Melbourne"
+        },
+        {
+            id: 17,
+            name: "Frankston",
+            lat: -38.1342,
+            lng: 145.1231,
+            type: "suburb",
+            description: "Bayside suburb 40km southeast of Melbourne"
+        },
+        {
+            id: 18,
+            name: "St Kilda",
+            lat: -37.8677,
+            lng: 144.9811,
+            type: "suburb",
+            description: "Famous beachside suburb 8km south of Melbourne CBD"
+        },
+        {
+            id: 19,
+            name: "Richmond",
+            lat: -37.8197,
+            lng: 144.9934,
+            type: "suburb",
+            description: "Inner-city suburb 5km east of Melbourne CBD"
+        },
+        {
+            id: 20,
+            name: "Footscray",
+            lat: -37.7993,
+            lng: 144.9005,
+            type: "suburb",
+            description: "Multicultural suburb 8km west of Melbourne CBD"
         }
     ];
 }
@@ -275,6 +356,117 @@ async function fetchPointDetails(pointId) {
                 { property: "Area", value: "2,878 km²" },
                 { property: "Founded", value: "1886" },
                 { property: "Time Zone", value: "PST (UTC-8)" }
+            ]
+        },
+        // Melbourne area points for testing nearby functionality
+        11: {
+            title: "Melbourne Details",
+            description: "The cultural capital of Australia, known for its coffee culture, street art, and sports events.",
+            image: "data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%23e67e22'/%3E%3Ctext x='150' y='100' text-anchor='middle' fill='white' font-size='18'%3EMelbourne%3C/text%3E%3C/svg%3E",
+            data: [
+                { property: "Population", value: "5.2 million" },
+                { property: "Area", value: "9,992 km²" },
+                { property: "Founded", value: "1835" },
+                { property: "Time Zone", value: "AEST (UTC+10)" }
+            ]
+        },
+        12: {
+            title: "Geelong Details",
+            description: "Victoria's second largest city, known for its waterfront and proximity to the Surf Coast.",
+            image: "data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%233498db'/%3E%3Ctext x='150' y='100' text-anchor='middle' fill='white' font-size='20'%3EGeelong%3C/text%3E%3C/svg%3E",
+            data: [
+                { property: "Population", value: "253,000" },
+                { property: "Area", value: "1,240 km²" },
+                { property: "Distance from Melbourne", value: "75 km SW" },
+                { property: "Time Zone", value: "AEST (UTC+10)" }
+            ]
+        },
+        13: {
+            title: "Ballarat Details",
+            description: "Historic gold rush city with well-preserved Victorian architecture and Sovereign Hill.",
+            image: "data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%23f1c40f'/%3E%3Ctext x='150' y='100' text-anchor='middle' fill='white' font-size='20'%3EBallarat%3C/text%3E%3C/svg%3E",
+            data: [
+                { property: "Population", value: "109,000" },
+                { property: "Area", value: "740 km²" },
+                { property: "Distance from Melbourne", value: "105 km NW" },
+                { property: "Notable for", value: "Gold Rush history" }
+            ]
+        },
+        14: {
+            title: "Bendigo Details",
+            description: "Regional city known for its Victorian architecture and thriving arts scene.",
+            image: "data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%23e74c3c'/%3E%3Ctext x='150' y='100' text-anchor='middle' fill='white' font-size='20'%3EBendigo%3C/text%3E%3C/svg%3E",
+            data: [
+                { property: "Population", value: "118,000" },
+                { property: "Area", value: "3,048 km²" },
+                { property: "Distance from Melbourne", value: "150 km N" },
+                { property: "Notable for", value: "Art Gallery & Historic architecture" }
+            ]
+        },
+        15: {
+            title: "Mornington Details",
+            description: "Coastal town on the beautiful Mornington Peninsula, popular for beaches and wineries.",
+            image: "data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%2316a085'/%3E%3Ctext x='150' y='100' text-anchor='middle' fill='white' font-size='18'%3EMornington%3C/text%3E%3C/svg%3E",
+            data: [
+                { property: "Population", value: "25,000" },
+                { property: "Type", value: "Coastal town" },
+                { property: "Distance from Melbourne", value: "60 km S" },
+                { property: "Known for", value: "Beaches & wineries" }
+            ]
+        },
+        16: {
+            title: "Dandenong Ranges Details",
+            description: "Mountain range and national park known for tall forests, gardens, and scenic railways.",
+            image: "data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%2327ae60'/%3E%3Ctext x='150' y='100' text-anchor='middle' fill='white' font-size='16'%3EDandenong Ranges%3C/text%3E%3C/svg%3E",
+            data: [
+                { property: "Type", value: "Mountain range & National Park" },
+                { property: "Elevation", value: "633m (highest point)" },
+                { property: "Distance from Melbourne", value: "40 km E" },
+                { property: "Famous for", value: "Puffing Billy Railway" }
+            ]
+        },
+        17: {
+            title: "Frankston Details",
+            description: "Bayside suburb known for its beaches, pier, and gateway to the Mornington Peninsula.",
+            image: "data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%239b59b6'/%3E%3Ctext x='150' y='100' text-anchor='middle' fill='white' font-size='18'%3EFrankston%3C/text%3E%3C/svg%3E",
+            data: [
+                { property: "Population", value: "142,000" },
+                { property: "Type", value: "Bayside suburb" },
+                { property: "Distance from Melbourne", value: "40 km SE" },
+                { property: "Known for", value: "Beaches & pier" }
+            ]
+        },
+        18: {
+            title: "St Kilda Details",
+            description: "Famous beachside suburb known for Luna Park, penguins, and vibrant nightlife.",
+            image: "data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%23f39c12'/%3E%3Ctext x='150' y='100' text-anchor='middle' fill='white' font-size='20'%3ESt Kilda%3C/text%3E%3C/svg%3E",
+            data: [
+                { property: "Population", value: "19,000" },
+                { property: "Type", value: "Beachside suburb" },
+                { property: "Distance from Melbourne", value: "8 km S" },
+                { property: "Famous for", value: "Luna Park & penguins" }
+            ]
+        },
+        19: {
+            title: "Richmond Details",
+            description: "Inner-city suburb known for Bridge Road shopping, Vietnamese food, and MCG proximity.",
+            image: "data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%234a90e2'/%3E%3Ctext x='150' y='100' text-anchor='middle' fill='white' font-size='20'%3ERichmond%3C/text%3E%3C/svg%3E",
+            data: [
+                { property: "Population", value: "26,000" },
+                { property: "Type", value: "Inner-city suburb" },
+                { property: "Distance from Melbourne", value: "5 km E" },
+                { property: "Known for", value: "Bridge Road & MCG" }
+            ]
+        },
+        20: {
+            title: "Footscray Details",
+            description: "Multicultural suburb known for its diverse food scene and University campus.",
+            image: "data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='200' fill='%23d35400'/%3E%3Ctext x='150' y='100' text-anchor='middle' fill='white' font-size='18'%3EFootscray%3C/text%3E%3C/svg%3E",
+            data: [
+                { property: "Population", value: "17,000" },
+                { property: "Type", value: "Inner-west suburb" },
+                { property: "Distance from Melbourne", value: "8 km W" },
+                { property: "Known for", value: "Multicultural food scene" }
             ]
         }
     };
@@ -466,9 +658,9 @@ function findNearbyPoints() {
         radius = baseRadius / Math.pow(2, Math.max(0, zoomLevel - 3));
     } else {
         // Use sample center point and fixed radius for demo in fallback mode
-        center = { lat: 40.7128, lng: -74.0060 }; // New York City as demo center
-        radius = 6000; // 6000km radius for demo to show multiple points
-        updateStatus("Demo mode: Finding points within 6000km of New York City...");
+        center = { lat: -37.8136, lng: 144.9631 }; // Melbourne as demo center
+        radius = 2000; // 2000km radius for demo to show Melbourne area points
+        updateStatus("Demo mode: Finding points within 2000km of Melbourne...");
     }
     
     if (isLeafletAvailable && map) {

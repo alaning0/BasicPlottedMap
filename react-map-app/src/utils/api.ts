@@ -1,24 +1,39 @@
 import { MapPoint, PointDetails } from '../types';
-import { mockMapPoints, mockPointDetails } from '../data/mockData';
 
-// Mock API function to get points data
+// Base URL for API calls (can be configured via environment variables)
+const API_BASE_URL = 'http://localhost:8000';
+
+// API function to get points data from server
 export async function fetchMapPoints(): Promise<MapPoint[]> {
-  // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 500));
-  return mockMapPoints;
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/points`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch map points: ${response.status} ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching map points:', error);
+    throw error;
+  }
 }
 
-// Mock API function to get point details
+// API function to get point details from server
 export async function fetchPointDetails(pointId: number): Promise<PointDetails> {
-  // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 300));
-  
-  const details = mockPointDetails[pointId];
-  if (!details) {
-    throw new Error(`Point details not found for ID: ${pointId}`);
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/points/${pointId}`);
+    if (!response.ok) {
+      if (response.status === 404) {
+        throw new Error(`Point details not found for ID: ${pointId}`);
+      }
+      throw new Error(`Failed to fetch point details: ${response.status} ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching point details:', error);
+    throw error;
   }
-  
-  return details;
 }
 
 // Calculate distance between two coordinates using Haversine formula

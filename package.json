@@ -1,0 +1,26 @@
+{
+  "name": "basic-plotted-map",
+  "version": "1.0.0",
+  "description": "A web-based map viewing application with interactive plotted points",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "map",
+    "leaflet",
+    "openstreetmap",
+    "interactive",
+    "web"
+  ],
+  "author": "Alan Ing",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

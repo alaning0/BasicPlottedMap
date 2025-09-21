@@ -60,7 +60,7 @@ The application is automatically deployed and available online. No installation 
 #### Prerequisites
 - Modern web browser with HTML5 support
 - Internet connection (for OpenStreetMap tiles)
-- Python 3.x (for local development server)
+- Node.js 14+ (for local development server)
 
 #### Installation & Running
 
@@ -72,7 +72,11 @@ The application is automatically deployed and available online. No installation 
 
 2. **Option A: Local development server**
    ```bash
-   python3 server.py
+   # Install dependencies
+   npm install
+   
+   # Start the server
+   npm start
    # Open http://localhost:8000
    ```
 
@@ -94,7 +98,8 @@ BasicPlottedMap/
 ├── index.html              # Main HTML structure
 ├── styles.css              # Styling and responsive design
 ├── script.js               # Core application logic and map implementation
-├── server.py               # Simple HTTP server for local development
+├── server.js               # Node.js HTTP server for local development
+├── package.json            # Node.js dependencies and scripts
 └── README.md               # This file
 ```
 
